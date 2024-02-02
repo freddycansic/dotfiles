@@ -1,0 +1,23 @@
+theme = "gruvbox_original_dark_medium"
+
+[editor]
+soft-wrap.enable = true
+search.smart-case = false
+
+[keys.select]
+y = "yank_to_clipboard"
+
+[keys.normal]
+# Use system clipboard by default
+# Swap around p and P commands
+p = "paste_clipboard_before"
+P = "paste_clipboard_after"
+
+y = "yank_to_clipboard"
+
+d = ["yank_to_clipboard", "delete_selection"]
+
+[keys.normal.space]
+y = "yank"
+p = "paste_before"
+P = "paste_after"

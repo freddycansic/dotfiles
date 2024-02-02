@@ -1,0 +1,161 @@
+import os
+import subprocess
+
+from libqtile import bar, layout, qtile, hook
+from libqtile.widget.backlight import ChangeDirection
+from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
+from libqtile.utils import get_config_file
+from libqtile.log_utils import logger
+
+from qtile_extras.popup.toolkit import PopupAbsoluteLayout, PopupText, PopupWidget, PopupSlider, PopupCircularProgress
+from qtile_extras.widget.mixins import ExtendedPopupMixin
+from qtile_extras.widget.decorations import PowerLineDecoration
+
+from colour import Color
+
+from widgets import widgets, extension_defaults, widget_defaults
+from theme import Theme
+from constants import *
+
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.Popen([f"{HOME}/.config/qtile/autostart.sh"])
+
+# Custom commands
+edit_qtile_config = f"{TERMINAL} {EDITOR} {get_config_file()}"
+show_qtile_logs = f"{TERMINAL} tail -f {HOME}/.local/share/qtile/qtile.log"
+take_screenshot = f"scrot '%Y-%m-%d_$wx$h.png' -s -l opacity=0,mode=edge -e \"mkdir -p {HOME}/Pictures/Screenshots; mv $f {HOME}/Pictures/Screenshots\""
+start_hotreload_config = f"{TERMINAL} {HOME}/.config/qtile/hotreload_config.sh"
+
+keys = [
+    Key([MOD], "h", lazy.layout.left(), desc="Move focus to left"),
+    Key([MOD], "l", lazy.layout.right(), desc="Move focus to right"),
+    Key([MOD], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([MOD], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([MOD], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([MOD, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([MOD, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([MOD, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([MOD, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([MOD, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([MOD, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([MOD, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([MOD, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([MOD], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key(
+        [MOD, "shift"],
+        "Return",
+        lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack",
+    ),
+    Key([MOD], "Return", lazy.spawn(TERMINAL), desc="Launch terminal"),
+    Key([MOD], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([MOD], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([MOD], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
+    Key([MOD], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([MOD, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([MOD], "p", lazy.spawncmd(shell=False), desc="Spawn a command using a prompt widget"),
+    
+    # Dev
+    Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
+    Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
+
+    # Function keys
+    Key([], "XF86AudioRaiseVolume", lazy.widget["alsawidget"].volume_up(),
+        # lazy.function(show_volume_slider),
+    desc="Raise the volume"),
+    Key([], "XF86AudioLowerVolume", lazy.widget["alsawidget"].volume_down(), 
+        # lazy.function(show_volume_slider), 
+    desc="Lower the volume"),
+    Key([], "XF86AudioMute", lazy.widget["alsawidget"].toggle_mute(), desc="Toggle mute the volume"),
+    # For some reason, the brightness keys are swapped on my keyboard
+    Key([], "XF86MonBrightnessUp", lazy.widget['backlight'].change_backlight(ChangeDirection.DOWN), desc="Raise the brightness"),
+    Key([], "XF86MonBrightnessDown", lazy.widget['backlight'].change_backlight(ChangeDirection.UP), desc="Lower the brightness"),
+    Key([], "Print", lazy.spawn(take_screenshot), desc="Take a screenshot")
+]
+
+for vt in range(1, 8):
+    keys.append(
+        Key(
+            ["control", "mod1"],
+            f"f{vt}",
+            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
+            desc=f"Switch to VT{vt}",
+        )
+    )
+
+
+groups = [Group(i) for i in "123456789"]
+
+for i in groups:
+    keys.extend(
+        [
+            Key(
+                [MOD],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc="Switch to group {}".format(i.name),
+            ),
+            Key(
+                [MOD, "shift"],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(i.name),
+            ),
+        ]
+    )
+
+layouts = [
+    layout.Columns(
+        insert_position=1,
+        border_focus=Theme.fg_2,
+        margin_on_single=[0, 0, 0, 0],
+        margin=2
+    ),
+]
+
+screens = [
+    Screen(
+        top=bar.Bar(
+            widgets,
+            28,
+            background=Theme.bg_0
+        ),
+    ),
+]
+
+# Drag floating layouts.
+mouse = [
+    Drag([MOD], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([MOD], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([MOD], "Button2", lazy.window.bring_to_front()),
+]
+
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: list
+follow_mouse_focus = True
+bring_front_click = False
+floats_kept_above = True
+cursor_warp = False
+floating_layout = layout.Floating(
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        *layout.Floating.default_float_rules,
+        Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="makebranch"),  # gitk
+        Match(wm_class="maketag"),  # gitk
+        Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(title="branchdialog"),  # gitk
+        Match(title="pinentry"),  # GPG key password entry
+    ]
+)
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+auto_minimize = True
+
+wl_input_rules = None
+
+wmname = "LG3D"
