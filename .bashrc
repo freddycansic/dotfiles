@@ -115,11 +115,14 @@ fi
 
 export XDG_CONFIG_HOME=$HOME/.config
 export EDITOR="/usr/bin/hx"
-export PATH="$PATH:/home/freddy/.local/bin/"
+export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.local/share/gem/ruby/3.1.0/bin:/home/freddy/.rbenv/bin:/home/freddy/.rbenv/plugins/ruby-build/bin"
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
 alias logout='kill -9 -1'
 alias logoff=logout
+alias shutdown='systemctl poweroff'
+alias reboot='systemctl reboot'
+alias top=htop
 
 lsprocess() {
     if [[ -z $1 ]]; then
@@ -136,3 +139,5 @@ lsprocess() {
     fi  
 }
 
+archey4
+eval "$(~/.rbenv/bin/rbenv init - bash)"

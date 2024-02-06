@@ -60,14 +60,11 @@ keys = [
     # Dev
     Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
     Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
+    Key([MOD], "l", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
 
     # Function keys
-    Key([], "XF86AudioRaiseVolume", lazy.widget["alsawidget"].volume_up(),
-        # lazy.function(show_volume_slider),
-    desc="Raise the volume"),
-    Key([], "XF86AudioLowerVolume", lazy.widget["alsawidget"].volume_down(), 
-        # lazy.function(show_volume_slider), 
-    desc="Lower the volume"),
+    Key([], "XF86AudioRaiseVolume", lazy.widget["alsawidget"].volume_up(), desc="Raise the volume"),
+    Key([], "XF86AudioLowerVolume", lazy.widget["alsawidget"].volume_down(), desc="Lower the volume"),
     Key([], "XF86AudioMute", lazy.widget["alsawidget"].toggle_mute(), desc="Toggle mute the volume"),
     # For some reason, the brightness keys are swapped on my keyboard
     Key([], "XF86MonBrightnessUp", lazy.widget['backlight'].change_backlight(ChangeDirection.DOWN), desc="Raise the brightness"),
@@ -75,43 +72,57 @@ keys = [
     Key([], "Print", lazy.spawn(take_screenshot), desc="Take a screenshot")
 ]
 
-for vt in range(1, 8):
-    keys.append(
+groups = [
+    Group(name="1", screen_affinity=0),
+    Group(name="2", screen_affinity=0),
+    Group(name="3", screen_affinity=0),
+    Group(name="4", screen_affinity=1),
+    Group(name="5", screen_affinity=1),
+    Group(name="6", screen_affinity=1),
+]
+
+def go_to_group(group: Group):
+    def _inner(qtile):
+        if len(qtile.screens) == 1:
+            qtile.groups_map[group.name].toscreen()
+            return
+
+        qtile.focus_screen(group.screen_affinity)
+        qtile.groups_map[group.name].toscreen()
+
+    return _inner
+
+def go_to_group_and_move_window(group: Group):
+    def _inner(qtile):
+        if len(qtile.screens) == 1:
+            qtile.current_window.togroup(group.name, switch_group=True)
+            return
+
+        qtile.current_window.togroup(group.name, switch_group=False)
+        qtile.focus_screen(group.screen_affinity)
+        qtile.groups_map[group.name].toscreen()
+
+    return _inner
+
+for group in groups:
+    keys.extend([
+        Key([MOD, "shift"], group.name, lazy.function(go_to_group_and_move_window(group))),
+        Key([MOD], group.name, lazy.function(go_to_group(group))),
         Key(
             ["control", "mod1"],
-            f"f{vt}",
-            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
-            desc=f"Switch to VT{vt}",
+            f"f{group.name}",
+            lazy.core.change_vt(group.name).when(func=lambda: qtile.core.name == "wayland"),
+            desc=f"Switch to VT{group.name}",
         )
-    )
-
-
-groups = [Group(i) for i in "123456789"]
-
-for i in groups:
-    keys.extend(
-        [
-            Key(
-                [MOD],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            Key(
-                [MOD, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
-            ),
-        ]
-    )
+    ])
 
 layouts = [
     layout.Columns(
         insert_position=1,
         border_focus=Theme.fg_2,
         margin_on_single=[0, 0, 0, 0],
-        margin=2
+        margin=4,
+        border_width=4
     ),
 ]
 
@@ -123,6 +134,13 @@ screens = [
             background=Theme.bg_0
         ),
     ),
+    Screen(
+        top=bar.Bar(
+            widgets,
+            28,
+            background=Theme.bg_0
+        )
+    )
 ]
 
 # Drag floating layouts.
