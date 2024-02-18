@@ -25,7 +25,10 @@ def autostart():
 # Custom commands
 edit_qtile_config = f"{TERMINAL} {EDITOR} {get_config_file()}"
 show_qtile_logs = f"{TERMINAL} tail -f {HOME}/.local/share/qtile/qtile.log"
-take_screenshot = f"scrot '%Y-%m-%d_$wx$h.png' -s -l opacity=0,mode=edge -e \"mkdir -p {HOME}/Pictures/Screenshots; mv $f {HOME}/Pictures/Screenshots\""
+
+take_screenshot = "scrot '%Y-%m-%d_$wx$h.png' -s -l opacity=0,mode=edge" 
+take_screenshot_save = f"{take_screenshot} -e \"mkdir -p {HOME}/Pictures/Screenshots; mv $f {HOME}/Pictures/Screenshots\""
+take_screenshot_copy = f"{take_screenshot} -e 'xclip -selection clipboard -t image/png -i $f'"
 start_hotreload_config = f"{TERMINAL} {HOME}/.config/qtile/hotreload_config.sh"
 
 keys = [
@@ -55,12 +58,12 @@ keys = [
     Key([MOD], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
     Key([MOD], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([MOD, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([MOD], "p", lazy.spawncmd(shell=False), desc="Spawn a command using a prompt widget"),
+    Key([MOD], "p", lazy.spawn("rofi -show run"), desc="Spawn a rofi menu"),
     
     # Dev
     Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
     Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
-    Key([MOD], "l", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
+    Key([MOD], "o", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
 
     # Function keys
     Key([], "XF86AudioRaiseVolume", lazy.widget["alsawidget"].volume_up(), desc="Raise the volume"),
@@ -69,7 +72,8 @@ keys = [
     # For some reason, the brightness keys are swapped on my keyboard
     Key([], "XF86MonBrightnessUp", lazy.widget['backlight'].change_backlight(ChangeDirection.DOWN), desc="Raise the brightness"),
     Key([], "XF86MonBrightnessDown", lazy.widget['backlight'].change_backlight(ChangeDirection.UP), desc="Lower the brightness"),
-    Key([], "Print", lazy.spawn(take_screenshot), desc="Take a screenshot")
+    Key(["shift"], "Print", lazy.spawn(take_screenshot_save), desc="Take a screenshot and save"),
+    Key([], "Print", lazy.spawn(take_screenshot_copy), desc="Take a screenshot and copy to clipboard"),
 ]
 
 groups = [
@@ -121,7 +125,7 @@ layouts = [
         insert_position=1,
         border_focus=Theme.fg_2,
         margin_on_single=[0, 0, 0, 0],
-        margin=4,
+        margin=0,
         border_width=4
     ),
 ]
@@ -176,4 +180,4 @@ auto_minimize = True
 
 wl_input_rules = None
 
-wmname = "LG3D"
+wmname = "Qtile"

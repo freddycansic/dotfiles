@@ -119,10 +119,11 @@ power_widget = widget.UPowerWidget(
     fill_charge="#ffffff",
     fill_critical=Theme.bg_red,
     fill_low=Theme.fg_yellow,
+    #fill_charge=Theme.fg_blue,
     border_charge_colour="#ffffff",
     border_colour="#ffffff",
     border_critical_colour="#ffffff",
-    text_charging="{percentage:.0f}%",
+    text_charging="Charging {percentage:.0f}%",
     text_discharging="{percentage:.0f}%",
     #text_charging="",
     #text_discharging="",
@@ -164,8 +165,8 @@ widgets = [
     widget.Backlight(fmt="", step=5, backlight_name="amdgpu_bl0"),
     
     # Center prompt
-    widget.Spacer(bar.STRETCH),
-    widget.Prompt(),
+    #widget.Spacer(bar.STRETCH),
+    #widget.Prompt(),
     widget.Spacer(bar.STRETCH, **powerline),
 
     widget.WidgetBox(widgets=[

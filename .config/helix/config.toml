@@ -3,6 +3,7 @@ theme = "gruvbox_original_dark_medium"
 [editor]
 soft-wrap.enable = true
 search.smart-case = false
+color-modes = true
 
 [keys.select]
 y = "yank_to_clipboard"
