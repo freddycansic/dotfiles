@@ -188,6 +188,7 @@ widgets = [
     widget.ALSAWidget(mode="icon", theme_path=f"{HOME}/.config/qtile/images", icon_size=18, background=Theme.bg_blue),
     widget.Spacer(length=5, background=Theme.bg_blue, **powerline),
     
+    # upower -i $(upower -e | grep 'BAT') | grep "time to empty" | awk '{print $4, $5}'
     power_widget,
     
     wifi_widget,

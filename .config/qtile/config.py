@@ -58,11 +58,12 @@ keys = [
     Key([MOD], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
     Key([MOD], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([MOD, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([MOD], "p", lazy.spawn("rofi -show run"), desc="Spawn a rofi menu"),
+    Key([MOD], "p", lazy.spawn(f"{HOME}/.config/rofi/launchers/type-4/launcher.sh"), desc="Spawn a rofi menu"),
     
     # Dev
     Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
     Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
+    # TODO: use light-lock
     Key([MOD], "o", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
 
     # Function keys
