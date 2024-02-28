@@ -1,3 +1,4 @@
 .config/qtile/__pycache__/
 .git/
 .gitignore
+README.md
