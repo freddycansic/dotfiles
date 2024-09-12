@@ -112,7 +112,7 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export XDG_CONFIG_HOME=$HOME/.config
-export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.local/share/gem/ruby/3.1.0/bin:/home/freddy/.rbenv/bin:/home/freddy/.rbenv/plugins/ruby-build/bin:/usr/sbin:/home/freddy/.cargo/bin"
+export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.local/share/gem/ruby/3.1.0/bin:/home/freddy/.rbenv/bin:/home/freddy/.rbenv/plugins/ruby-build/bin:/usr/sbin:/home/freddy/.cargo/bin:/opt/rust-rover/bin"
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
 alias logout='kill -9 -1'
