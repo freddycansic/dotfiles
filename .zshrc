@@ -91,9 +91,9 @@ export LANG=en_GB.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-    export EDITOR='hx'
+    export EDITOR='nvim'
 else
-    export EDITOR='nano'
+    export EDITOR='vim'
 fi
 
 # Compilation flags
@@ -112,7 +112,7 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export XDG_CONFIG_HOME=$HOME/.config
-export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.local/share/gem/ruby/3.1.0/bin:/home/freddy/.rbenv/bin:/home/freddy/.rbenv/plugins/ruby-build/bin:/usr/sbin:/home/freddy/.cargo/bin:/opt/rust-rover/bin"
+export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.cargo/bin/"
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
 alias logout='kill -9 -1'
@@ -139,12 +139,22 @@ lsprocess() {
     fi  
 }
 
-eval "$(~/.rbenv/bin/rbenv init - bash)"
 eval "$(zoxide init --cmd cd zsh)"
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/etc/profile.d/conda.sh" ]; then
+        . "/usr/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

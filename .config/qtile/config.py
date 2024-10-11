@@ -18,6 +18,12 @@ from widgets import widgets, extension_defaults, widget_defaults
 from theme import Theme
 from constants import *
 
+HOME = os.path.expanduser("~")
+MOD = "mod4"
+FUNCTION = "mod1"
+TERMINAL = "kitty"
+EDITOR = os.environ.get("EDITOR", "/usr/bin/nano")
+
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen([f"{HOME}/.config/qtile/autostart.sh"])
@@ -63,6 +69,7 @@ keys = [
     # Dev
     Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
     Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
+    Key([MOD, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     # TODO: use light-lock
     Key([MOD], "o", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
 
@@ -124,28 +131,27 @@ for group in groups:
 layouts = [
     layout.Columns(
         insert_position=1,
-        border_focus=Theme.fg_2,
+        border_focus=Theme.blue_highlight_dark,
+        border_focus_stack=Theme.blue_highlight_dark,
         margin_on_single=[0, 0, 0, 0],
         margin=0,
-        border_width=4
+        border_width=3
     ),
 ]
 
+bar = bar.Bar(            
+    widgets,
+    28,
+    margin=5,
+    background="#00000000"
+)
+
 screens = [
     Screen(
-        top=bar.Bar(
-            widgets,
-            28,
-            background=Theme.bg_0
-        ),
+        wallpaper="~/.config/qtile/images/wallpaper/endeavour.jpg",
+        wallpaper_mode="fill",
+        top=bar,
     ),
-    Screen(
-        top=bar.Bar(
-            widgets,
-            28,
-            background=Theme.bg_0
-        )
-    )
 ]
 
 # Drag floating layouts.
@@ -183,3 +189,7 @@ auto_minimize = True
 wl_input_rules = None
 
 wmname = "Qtile"
+
+@hook.subscribe.startup
+def _():
+    bar.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
