@@ -16,12 +16,11 @@ from colour import Color
 
 from widgets import widgets, extension_defaults, widget_defaults
 from theme import Theme
-from constants import *
 
 HOME = os.path.expanduser("~")
 MOD = "mod4"
 FUNCTION = "mod1"
-TERMINAL = "kitty"
+TERMINAL = "urxvt"
 EDITOR = os.environ.get("EDITOR", "/usr/bin/nano")
 
 @hook.subscribe.startup_once
@@ -129,20 +128,19 @@ for group in groups:
     ])
 
 layouts = [
-    layout.Columns(
-        insert_position=1,
+    layout.MonadTall(
         border_focus=Theme.blue_highlight_dark,
         border_focus_stack=Theme.blue_highlight_dark,
-        margin_on_single=[0, 0, 0, 0],
-        margin=0,
-        border_width=3
-    ),
+        border_normal=Theme.grey,
+        border_width=3,
+        margin=5,
+    )
 ]
 
 bar = bar.Bar(            
     widgets,
     28,
-    margin=5,
+    margin=[5, 5, 0, 5],
     background="#00000000"
 )
 

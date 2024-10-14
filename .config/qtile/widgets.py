@@ -8,7 +8,6 @@ from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupImage, PopupTex
 from qtile_extras import widget
 
 from theme import Theme
-from constants import *
 
 widget_defaults = dict(
     font=Theme.font,

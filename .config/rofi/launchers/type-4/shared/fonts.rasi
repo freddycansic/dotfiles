@@ -8,5 +8,5 @@
  **/
 
 * {
-    font: "SF Mono 12";
+    font: "SF Pro Text 12";
 }

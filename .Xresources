@@ -1,0 +1,51 @@
+URxvt.font:           xft:SF Mono:size=11:style=Regular,\
+                      xft:MesloLGS NF:size=11:style=Regular
+URxvt.boldFont:       xft:SF Mono:size=11:style=Medium
+URxvt.italicFont:     xft:SF Mono:size=11:style=Italic
+URxvt.boldItalicFont: xft:SF Mono:size=11:style=Medium Italic
+
+URxvt.scrollBar: false ! remove scrollbar
+
+URxvt.foreground:  #282829
+URxvt.background:  #f3f4f9
+URxvt.cursorColor: #7c8eb6
+
+! black
+URxvt.color0:      #282829
+! light black
+URxvt.color8:      #928374
+
+! red
+URxvt.color1:      #f95959
+! light red
+URxvt.color9:      #f99090
+
+! green
+URxvt.color2:      #83f48e
+! light green
+URxvt.color10:     #9cf7a3
+
+! yellow
+URxvt.color3:      #f3e769
+! light yellow
+URxvt.color11:     #ffef42
+
+! blue
+URxvt.color4:      #6084d1
+! light blue
+URxvt.color12:     #9bacd1
+
+! magenta
+URxvt.color5:      #f393f9
+! light magenta
+URxvt.color13:     #f3c9f9
+
+! cyan
+URxvt.color6:      #84f4f9
+! light cyan
+URxvt.color14:     #bcf4f9
+
+! white
+URxvt.color7:      #bdc1c1
+! dark white
+URxvt.color15:     #4a4e4f
