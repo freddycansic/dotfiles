@@ -1,6 +1,8 @@
 class Theme:
     font = "SF Pro Text"
 
+    wallpaper = "images/apple.jpg"
+
     red = "#f95959"
     lightred = "#f99090"
 
