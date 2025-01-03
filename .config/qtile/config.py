@@ -8,9 +8,9 @@ from libqtile.lazy import lazy
 from libqtile.utils import get_config_file
 from libqtile.log_utils import logger
 
-from qtile_extras.popup.toolkit import PopupAbsoluteLayout, PopupText, PopupWidget, PopupSlider, PopupCircularProgress
-from qtile_extras.widget.mixins import ExtendedPopupMixin
-from qtile_extras.widget.decorations import PowerLineDecoration
+# from qtile_extras.popup.toolkit import PopupAbsoluteLayout, PopupText, PopupWidget, PopupSlider, PopupCircularProgress
+# from qtile_extras.widget.mixins import ExtendedPopupMixin
+# from qtile_extras.widget.decorations import PowerLineDecoration
 
 from colour import Color
 

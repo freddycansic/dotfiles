@@ -3,8 +3,8 @@ import os
 from libqtile import bar
 from libqtile.lazy import lazy
 
-from qtile_extras.widget.decorations import PowerLineDecoration
-from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupImage, PopupText, PopupWidget,  PopupGridLayout
+# from qtile_extras.widget.decorations import PowerLineDecoration
+# from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupImage, PopupText, PopupWidget,  PopupGridLayout
 from qtile_extras import widget
 
 from theme import Theme
