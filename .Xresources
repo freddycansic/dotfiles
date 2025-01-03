@@ -6,7 +6,28 @@ URxvt.boldItalicFont: xft:SF Mono:size=11:style=Medium Italic
 
 URxvt.scrollBar: false ! remove scrollbar
 
+! Copy + paste
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+! Move cursor whole word
+URxvt.keysym.Control-Up:    \033[1;5A
+URxvt.keysym.Control-Down:  \033[1;5B
+URxvt.keysym.Control-Left:  \033[1;5D
+URxvt.keysym.Control-Right: \033[1;5C
+
+! URL
+URxvt.url-launcher: /usr/bin/brave
+URxvt.underlineURLs: true
+URxvt.matcher.button: 1
+
+! Transparency 
+URxvt*depth: 32
+
 URxvt.foreground:  #282829
+/*URxvt.background:  [90]#f3f4f9*/
 URxvt.background:  #f3f4f9
 URxvt.cursorColor: #7c8eb6
 
@@ -28,7 +49,7 @@ URxvt.color10:     #9cf7a3
 ! yellow
 URxvt.color3:      #f3e769
 ! light yellow
-URxvt.color11:     #ffef42
+URxvt.color11:     #f3e769
 
 ! blue
 URxvt.color4:      #6084d1

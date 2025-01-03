@@ -30,11 +30,41 @@ return {
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html" },
+          ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html", "haskell" },
           sync_install = false,
           highlight = { enable = true },
           indent = { enable = true },  
         })
     end
- }
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "haskell-language-server"	
+      },
+    },
+    config = function()
+      require("mason").setup({
+      })
+    end
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local mason = require("mason")
+	
+      mason.setup()
+      lspconfig.rust_analyzer.setup({})
+      lspconfig.hls.setup({})
+    end
+  },
+  {
+    "nvim-lua/lsp-status.nvim",
+	
+  }
 }

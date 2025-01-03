@@ -1,5 +1,6 @@
 vim.opt.termguicolors = true
 
+-- Open telescope when opening nvim with a directory as parameter
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     local first_argument = vim.fn.argv(0)
@@ -10,11 +11,14 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
-vim.opt.background = "light"
-vim.cmd('hi Normal guibg=#f3f4f9')
+-- Auto update lazy when entering nvim
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    require("lazy").update({
+      show = false,
+    })
+  end
+})
 
--- vim.api.nvim_command([[
---     augroup ChangeBackgroudColour
---         autocmd colorscheme * :hi normal guibg=#f3f4f9
---     augroup END
--- ]])
+vim.opt.background = "light"
+vim.cmd('hi Normal guibg=#f3f4f9e6') -- e6 = 90% opacity

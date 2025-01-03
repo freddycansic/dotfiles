@@ -113,8 +113,9 @@ fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export XDG_CONFIG_HOME=$HOME/.config
-export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.cargo/bin/"
+export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.cargo/bin/:/home/freddy/.ghcup/bin/"
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1 # For conda error
 
 alias logout='kill -9 -1'
 alias logoff=logout
@@ -122,7 +123,7 @@ alias shutdown='systemctl poweroff'
 alias reboot='systemctl reboot'
 alias top=htop
 alias cpc='xclip -sel c <'
-alias battery='upower -i $(upower -e | grep '\''BAT'\'') | grep "time to empty" | awk '\''{print $4, $5}'\'
+alias battery='watch --interval=1 acpi -V'
 
 
 lsprocess() {
@@ -144,16 +145,17 @@ eval "$(zoxide init --cmd cd zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/usr/etc/profile.d/conda.sh" ]; then
-        . "/usr/etc/profile.d/conda.sh"
+    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/usr/bin:$PATH"
+        export PATH="/opt/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup

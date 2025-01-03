@@ -31,9 +31,6 @@ def autostart():
 edit_qtile_config = f"{TERMINAL} {EDITOR} {get_config_file()}"
 show_qtile_logs = f"{TERMINAL} tail -f {HOME}/.local/share/qtile/qtile.log"
 
-take_screenshot = "scrot '%Y-%m-%d_$wx$h.png' -s -l opacity=0,mode=edge" 
-take_screenshot_save = f"{take_screenshot} -e \"mkdir -p {HOME}/Pictures/Screenshots; mv $f {HOME}/Pictures/Screenshots\""
-take_screenshot_copy = f"{take_screenshot} -e 'xclip -selection clipboard -t image/png -i $f'"
 start_hotreload_config = f"{TERMINAL} {HOME}/.config/qtile/hotreload_config.sh"
 
 keys = [
@@ -69,8 +66,7 @@ keys = [
     Key([MOD, "control"], "e", lazy.spawn(edit_qtile_config), lazy.spawn(start_hotreload_config), desc="Edit the Qtile config, with hotreloading"),
     Key([MOD, "control"], "t", lazy.spawn(show_qtile_logs), desc="Show the Qtile logs"),
     Key([MOD, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    # TODO: use light-lock
-    Key([MOD], "o", lazy.spawn("dm-tool lock"), desc="Lock the screen"),
+    Key([MOD], "o", lazy.spawn("light-locker-command -l"), desc="Lock the screen"),
 
     # Function keys
     Key([], "XF86AudioRaiseVolume", lazy.widget["alsawidget"].volume_up(), desc="Raise the volume"),
@@ -79,8 +75,8 @@ keys = [
     # For some reason, the brightness keys are swapped on my keyboard
     Key([], "XF86MonBrightnessUp", lazy.widget['backlight'].change_backlight(ChangeDirection.DOWN), desc="Raise the brightness"),
     Key([], "XF86MonBrightnessDown", lazy.widget['backlight'].change_backlight(ChangeDirection.UP), desc="Lower the brightness"),
-    Key(["shift"], "Print", lazy.spawn(take_screenshot_save), desc="Take a screenshot and save"),
-    Key([], "Print", lazy.spawn(take_screenshot_copy), desc="Take a screenshot and copy to clipboard"),
+    Key(["shift"], "Print", lazy.spawn("bash -c 'maim -s /home/freddy/Pictures/Screenshots/$(date +%s).png'"), desc="Take a screenshot and save"),
+    Key([], "Print", lazy.spawn("bash -c 'maim -s | xclip -selection clipboard -t image/png'"), desc="Take a screenshot and copy to clipboard"),
 ]
 
 groups = [
@@ -133,6 +129,7 @@ layouts = [
         border_focus_stack=Theme.blue_highlight_dark,
         border_normal=Theme.grey,
         border_width=3,
+        single_border_width=0,
         margin=5,
     )
 ]
@@ -146,9 +143,14 @@ bar = bar.Bar(
 
 screens = [
     Screen(
-        wallpaper="~/.config/qtile/images/wallpaper/endeavour.jpg",
+        wallpaper=Theme.wallpaper,
         wallpaper_mode="fill",
         top=bar,
+    ),
+    Screen(
+        wallpaper=Theme.wallpaper,
+        wallpaper_mode="fill",
+        # top=bar,
     ),
 ]
 
@@ -188,6 +190,6 @@ wl_input_rules = None
 
 wmname = "Qtile"
 
-@hook.subscribe.startup
-def _():
-    bar.window.window.set_property("QTILE_BAR", 1, "CARDINAL", 32)
+# @hook.subscribe.screen_change
+# def _(notify_event):
+    
