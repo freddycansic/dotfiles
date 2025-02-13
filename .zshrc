@@ -161,3 +161,30 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# fnm
+FNM_PATH="/home/freddy/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/freddy/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+export ROS2_DOCKER_ENV=/home/freddy/.local/share/ros2
+
+ros_start() {
+    export ROS_PROJECT_PATH=$(pwd)
+    cd $ROS2_DOCKER_ENV && docker compose up -d --build && cd $ROS_PROJECT_PATH
+    xhost +local:root
+}
+
+ros_stop() {
+    cd $ROS2_DOCKER_ENV && docker compose down && cd && $ROS_PROJECT_PATH
+}
+
+ros_shell() {
+    echo "Launching ROS Shell, type 'exit' to exit the shell once you are done."
+    docker exec -it ros2 /bin/bash
+}

@@ -42,14 +42,14 @@ URxvt.color1:      #f95959
 URxvt.color9:      #f99090
 
 ! green
-URxvt.color2:      #83f48e
+URxvt.color2:      #70d47a
 ! light green
-URxvt.color10:     #9cf7a3
+URxvt.color10:     #70d47a
 
 ! yellow
-URxvt.color3:      #f3e769
+URxvt.color3:      #ccbd16
 ! light yellow
-URxvt.color11:     #f3e769
+URxvt.color11:     #ccbd16
 
 ! blue
 URxvt.color4:      #6084d1
