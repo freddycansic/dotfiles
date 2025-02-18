@@ -24,7 +24,7 @@ URxvt.underlineURLs: true
 URxvt.matcher.button: 1
 
 ! TrueColor
-! URxvt*termName: xterm-256color
+URxvt*termName: xterm-256color
 
 ! Transparency 
 URxvt*depth: 32
