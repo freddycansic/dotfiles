@@ -23,6 +23,9 @@ URxvt.url-launcher: /usr/bin/brave
 URxvt.underlineURLs: true
 URxvt.matcher.button: 1
 
+! TrueColor
+! URxvt*termName: xterm-256color
+
 ! Transparency 
 URxvt*depth: 32
 
@@ -67,6 +70,8 @@ URxvt.color6:      #84f4f9
 URxvt.color14:     #bcf4f9
 
 ! white
-URxvt.color7:      #bdc1c1
+/*URxvt.color7:      #bdc1c1*/
+URxvt.color7:      #f3f4f9
 ! dark white
-URxvt.color15:     #4a4e4f
+/*URxvt.color15:     #4a4e4f*/
+URxvt.color15:     #dfe0e6
