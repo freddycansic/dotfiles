@@ -1,0 +1,92 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "ui_font_size": 16,
+    "ui_font_family": "SF Mono",
+    "buffer_font_size": 16,
+    "buffer_font_family": "SF Mono",
+    "theme": {
+        "mode": "light",
+        "light": "Ayu Light",
+        "dark": "One Dark"
+    },
+    "tab_bar": {
+        // "show": false
+    },
+    "gutter": {
+        "folds": false
+        // "code_actions": false
+    },
+    "format_on_save": "on",
+    "soft_wrap": "editor_width",
+    "tab_size": 4,
+    "telemetry": {
+        "diagnostics": false,
+        "metrics": false
+    },
+    "inlay_hints": {
+        "enabled": false
+    },
+    "git": {
+        "inline_blame": {
+            "enabled": false
+        }
+    },
+
+    "languages": {
+        "Ruby": {
+            "tab_size": 2,
+            // "language_servers": ["ruby-lsp", "rubocop", "!solargraph"],
+            "language_servers": ["ruby-lsp", "!solargraph"]
+            // https://github.com/zed-industries/extensions/issues/795#issuecomment-2135866170
+            // "formatter": {
+            //     "external": {
+            //         "command": "./bin/bundle",
+            //         "arguments": [
+            //             "exec",
+            //             "rubocop",
+            //             "--server",
+            //             "--autocorrect"
+            //         ]
+            //     }
+            // }
+        },
+        "Rust": {
+            "language_servers": ["rust-analyzer"],
+            "code_actions_on_format": {
+                "source.organiseImports": true
+            }
+        }
+    },
+
+    "lsp": {
+        "ruby-lsp": {
+            "initialization_options": {
+                "enabledFeatures": {
+                    "diagnostics": false
+                }
+            },
+            "settings": {
+                // Run commands with "bundle exec"
+                "use_bundler": true
+            }
+        },
+        "rubocop": {
+            "initialization_options": {
+                "enabledFeatures": {
+                    "safeAutocorrect": false
+                }
+            },
+            "settings": {
+                "use_bundler": true
+            }
+        },
+        "rust-analyzer": {}
+    }
+}

@@ -1,0 +1,18 @@
+[
+    {
+        "label": "test $ZED_RELATIVE_FILE:$ZED_ROW",
+        "command": "bundle exec rspec",
+        "args": ["\"$ZED_RELATIVE_FILE:$ZED_ROW\""],
+        "tags": ["ruby-test"]
+    },
+    {
+        "label": "run editor",
+        "command": "cargo run --bin editor",
+        "tags": ["rust-run"]
+    },
+    {
+        "label": "run game",
+        "command": "cargo run --bin game",
+        "tags": ["rust-run"]
+    }
+]
