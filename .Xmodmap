@@ -1,0 +1,4 @@
+! Remaps escape to caps lock and vice versa for vim purposes
+remove Lock = Caps_Lock
+keycode 66 = Escape
+keycode 9 = Caps_Lock

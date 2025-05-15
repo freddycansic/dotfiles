@@ -116,6 +116,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export PATH="$PATH:/home/freddy/.local/bin/:/home/freddy/.cargo/bin/:/home/freddy/.ghcup/bin/"
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 export CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1 # For conda error
+export GNOME_KEYRING_CONTROL=/run/user/1000/keyring 
 
 alias logout='kill -9 -1'
 alias logoff=logout

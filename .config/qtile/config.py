@@ -193,3 +193,5 @@ wmname = "Qtile"
 # @hook.subscribe.screen_change
 # def _(notify_event):
     
+import os
+import subprocess

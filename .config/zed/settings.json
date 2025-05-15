@@ -9,7 +9,7 @@
 {
     "ui_font_size": 16,
     "ui_font_family": "SF Mono",
-    "buffer_font_size": 16,
+    "buffer_font_size": 15,
     "buffer_font_family": "SF Mono",
     "theme": {
         "mode": "light",
@@ -62,6 +62,9 @@
             "code_actions_on_format": {
                 "source.organiseImports": true
             }
+        },
+        "Haml": {
+            "tab_size": 2
         }
     },
 
